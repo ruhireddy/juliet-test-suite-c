@@ -6,11 +6,15 @@ string(REGEX MATCH "^CWE[0-9]+" CWE_NAME "${CWE_FOLDER}")
 
 project("juliet-c-${CWE_NAME}")
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -ffunction-sections -fdata-sections -fvisibility=hidden")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -ffunction-sections -fdata-sections -fvisibility=hidden")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
+
 # prevent cmake from setting -O2 (for release, relwithdebinf, minsizerel, etc)
-set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g")
-set(CMAKE_C_FLAGS_RELEASE "-g")
-set(CMAKE_C_FLAGS_MINSIZEREL "-g")
-add_compile_options(-O0)  # hopefully adding -O0 here should turn off test optimizations
+# set(CMAKE_C_FLAGS_RELWITHDEBINFO "-g")
+# set(CMAKE_C_FLAGS_RELEASE "-g")
+# set(CMAKE_C_FLAGS_MINSIZEREL "-g")
+# add_compile_options(-O0)  # hopefully adding -O0 here should turn off test optimizations
 
 
 option(PLACE_OUTPUT_IN_TOPLEVEL_DIR "Use TOPLEVEL_DIR/bin as the output for all test binaries" ON)
